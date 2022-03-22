@@ -37,6 +37,8 @@ public class PostController {
 		List<Posts> list = repo.findAll(Sort.by(Sort.Direction.DESC, "id"));
 //    Collections.reverse(list); //普通に取得してこちらの処理でもOK
 		model.addAttribute("posts", list);
+		PostForm postForm = new PostForm();
+		model.addAttribute("postForm", postForm);
 		return "/posts";
 	}
 
@@ -49,12 +51,14 @@ public class PostController {
 	 */
 	@PostMapping("/posts/create")
 	public String create(@Validated PostForm postForm, BindingResult bindingResult,
-			@AuthenticationPrincipal AccountUserDetails user) {
+			@AuthenticationPrincipal AccountUserDetails user, Model model) {
 		// バリデーションの結果、エラーがあるかどうかチェック
 		if (bindingResult.hasErrors()) {
 			// エラーがある場合は投稿登録画面を返す
-			
-			return "redirect:/posts";
+			List<Posts> list = repo.findAll(Sort.by(Sort.Direction.DESC, "id"));
+			model.addAttribute("posts", list);
+			model.addAttribute("postForm", postForm);
+			return "/posts";
 		}
 
 		Posts post = new Posts();

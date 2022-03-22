@@ -40,11 +40,11 @@
 			<input type="submit" value="ログアウト">
 		</form>
 		<div class="form">
-			<form method="post" th:action="@{/posts/create}">
+			<form method="post" th:object="${postForm}" th:action="@{/posts/create}">
 				<ul>
-					<li>タイトル：<input type="text" name="title"></li>
+					<li>タイトル：<input type="text" name="title" th:field="*{title}"><span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span></li>
 					<li class="line"></li>
-					<li style="display: table;"><span style="display: table-cell; vertical-align: top;">内容:</span><textarea name="text" cols="80" rows="10"></textarea></li>
+					<li style="display: table;"><span style="display: table-cell; vertical-align: top;">内容:</span><textarea name="text" cols="80" rows="10" th:field="*{text}"></textarea><br><span th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></span></li>
 					<li class="line"></li>
 					<li><input type="submit" value="投稿"></li>
 				</ul>
